@@ -81,13 +81,13 @@ class ShittalkBot(commands.Bot):
         # Sau 97 lần fail, chắc chắn thành công
         if self._fail_count >= 97:
             await self._send_shittalk(message.channel)
-            self._chat_chance = random.randint(2, 20)
+            self._chat_chance = random.randint(20, 200)
             self._fail_count = 0
         # Thử xác suất hiện tại (1 / self._chat_chance)
         elif random.randint(1, self._chat_chance) == 1:
             await self._send_shittalk(message.channel)
             # Rerandom tỉ lệ
-            self._chat_chance = random.randint(2, 20)
+            self._chat_chance = random.randint(20, 200)
             self._fail_count = 0
         else:
             self._fail_count += 1
