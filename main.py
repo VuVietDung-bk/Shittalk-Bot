@@ -14,6 +14,11 @@ if __name__ == "__main__":
         print("⚠️ Please set DISCORD_BOT_TOKEN environment variable")
         print("Example: export DISCORD_BOT_TOKEN='your_token_here'")
     else:
+        # Debug: kiểm tra token
+        print(f"Token length: {len(TOKEN)}")
+        print(f"Token starts with: {TOKEN[:10]}...")
+        print(f"Token ends with: ...{TOKEN[-10:]}")
+        TOKEN = TOKEN.strip()  # Loại bỏ khoảng trắng đầu/cuối
         handler = logging.FileHandler(
             filename="discord.log", encoding="utf-8", mode="w"
         )
