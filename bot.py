@@ -23,7 +23,9 @@ SHITTALK_LINES = {
     "chia kho thap, cut nay tieu hoi tat": "<:hlgotnonetosay:1402967694470418594>",
     "kien thuc bong tinh anh": "<:hlgotnonetosay:1402967694470418594>",
     "donkey enough to make a joke like that": "<:gotnonetocook:1409548321395183678>",
-    "mdf": "<:gotnonetocook:1409548321395183678>"
+    "mdf": "<:gotnonetocook:1409548321395183678>",
+    "luck top 0": "<:hlgotnonetosay:1402967694470418594>",
+    "thang nhan phia tren la gay 🏳️‍🌈": "<:hlgotnonetosay:1402967694470418594>"
 }
 
 class ShittalkBot(commands.Bot):
