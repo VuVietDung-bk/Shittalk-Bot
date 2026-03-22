@@ -25,7 +25,9 @@ SHITTALK_LINES = {
     "donkey enough to make a joke like that": "<:gotnonetocook:1409548321395183678>",
     "mdf": "<:gotnonetocook:1409548321395183678>",
     "luck top 0": "<:hlgotnonetosay:1402967694470418594>",
-    "thang nhan phia tren la gay 🏳️‍🌈": "<:hlgotnonetosay:1402967694470418594>"
+    "thang nhan phia tren la gay 🏳️‍🌈": "<:hlgotnonetosay:1402967694470418594>",
+    "Hắn sẽ gây ra những hậu quả \"kinh khủng\" cho cả bạn và lũ thây ma!": "<:fire_speaking:1477284820844544122>",
+    "tao del chua may ra": "<:hlgotnonetosay:1402967694470418594>",
 }
 
 class ShittalkBot(commands.Bot):
