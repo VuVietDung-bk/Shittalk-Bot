@@ -28,6 +28,8 @@ SHITTALK_LINES = {
     "thang nhan phia tren la gay 🏳️‍🌈": "<:hlgotnonetosay:1402967694470418594>",
     "Hắn sẽ gây ra những hậu quả \"kinh khủng\" cho cả bạn và lũ thây ma!": "<:fire_speaking:1477284820844544122>",
     "tao del chua may ra": "<:hlgotnonetosay:1402967694470418594>",
+    "co cut": "<:gotnonetocook:1409548321395183678>",
+    "toi di roi mn len pho lang thay cho toi nhe\nco gang thay doi discord LKT\nde LKT khong con tinh trang nhu bay h nua": "<:arisu_cry:1332925707742875690>",
 }
 
 class ShittalkBot(commands.Bot):
@@ -48,11 +50,17 @@ class ShittalkBot(commands.Bot):
         self._allowed_channels: set[int] = set()
         # Danh sách user ID bị bỏ qua
         self._excluded_users: set[int] = set()
+        # Owner ID
+        self._owner_id: int | None = None
+        # Flag để tracking xem đã claim owner chưa
+        self._owner_claimed = False
 
     async def setup_hook(self):
+        self.tree.add_command(_claim_owner)
         self.tree.add_command(_add_channel)
         self.tree.add_command(_remove_channel)
         self.tree.add_command(_exclude_myself)
+        self.tree.add_command(_exclude_user)
         self.tree.add_command(_current_stat)
         await self.tree.sync()
         print("Slash commands synced!")
@@ -128,6 +136,13 @@ async def _add_channel(interaction: discord.Interaction, channel: discord.TextCh
 @app_commands.describe(channel="Channel cần xóa (mặc định: channel hiện tại)")
 async def _remove_channel(interaction: discord.Interaction, channel: discord.TextChannel = None):
     bot: ShittalkBot = interaction.client
+    # Kiểm tra nếu chỉ owner mới được gọi
+    if bot._owner_id is not None and interaction.user.id != bot._owner_id:
+        await interaction.response.send_message(
+            "❌ Chỉ owner mới có thể xóa channel.", ephemeral=True
+        )
+        return
+    
     channel_id = channel.id if channel else interaction.channel_id
     if channel_id not in bot._allowed_channels:
         await interaction.response.send_message(
@@ -158,6 +173,54 @@ async def _exclude_myself(interaction: discord.Interaction):
         bot._excluded_users.add(user_id)
         await interaction.response.send_message(
             f"✅ Bạn đã được thêm vào danh sách loại trừ. Bot sẽ bỏ qua tin nhắn của bạn.",
+            ephemeral=True,
+        )
+
+
+@app_commands.command(
+    name="claimowner",
+    description="Claim owner bot (chỉ được gọi một lần).",
+)
+async def _claim_owner(interaction: discord.Interaction):
+    bot: ShittalkBot = interaction.client
+    if bot._owner_claimed:
+        await interaction.response.send_message(
+            "❌ Owner đã được claim rồi. Không thể claim lệnh.", ephemeral=True
+        )
+    else:
+        bot._owner_id = interaction.user.id
+        bot._owner_claimed = True
+        await interaction.response.send_message(
+            f"✅ <@{interaction.user.id}> đã become owner của bot!",
+            ephemeral=True,
+        )
+
+
+@app_commands.command(
+    name="excludeuser",
+    description="Exclude hoặc include user (chỉ owner mới được gọi).",
+)
+@app_commands.describe(user="User ID cần exclude/include")
+async def _exclude_user(interaction: discord.Interaction, user: int):
+    bot: ShittalkBot = interaction.client
+    # Kiểm tra nếu chỉ owner mới được gọi
+    if bot._owner_id is not None and interaction.user.id != bot._owner_id:
+        await interaction.response.send_message(
+            "❌ Chỉ owner mới có thể exclude user.", ephemeral=True
+        )
+        return
+    
+    if user in bot._excluded_users:
+        # Toggle: nếu đã exclude thì bỏ exclude
+        bot._excluded_users.discard(user)
+        await interaction.response.send_message(
+            f"✅ <@{user}> đã được bỏ khỏi danh sách loại trừ. Bot sẽ tính tin nhắn của họ.",
+            ephemeral=True,
+        )
+    else:
+        bot._excluded_users.add(user)
+        await interaction.response.send_message(
+            f"✅ <@{user}> đã được thêm vào danh sách loại trừ. Bot sẽ bỏ qua tin nhắn của họ.",
             ephemeral=True,
         )
 
