@@ -1,5 +1,6 @@
 import random
 import discord
+import traceback
 from discord import app_commands
 from discord.ext import commands
 
@@ -73,6 +74,17 @@ class ShittalkBot(commands.Bot):
         self.tree.add_command(_exclude_myself)
         self.tree.add_command(_exclude_user)
         self.tree.add_command(_current_stat)
+        
+        # Thêm error handler cho slash commands
+        @self.tree.error
+        async def on_app_command_error(interaction: discord.Interaction, error: app_commands.AppCommandError):
+            print(f"❌ Slash command error: {error}")
+            if not interaction.response.is_done():
+                await interaction.response.send_message(
+                    f"⚠️ Có lỗi xảy ra: {str(error)}", 
+                    ephemeral=True
+                )
+        
         await self.tree.sync()
         print("Slash commands synced!")
 
@@ -81,41 +93,50 @@ class ShittalkBot(commands.Bot):
 
     async def _send_shittalk(self, channel: discord.TextChannel):
         """Gửi tin nhắn random + 1/2 tỉ lệ gửi thêm emoji"""
-        line = random.choice(list(SHITTALK_LINES.keys()))
-        emoji = SHITTALK_LINES[line]
-        await channel.send(line)
-        # 1/2 tỉ lệ gửi thêm emoji
-        if random.randint(1, 2) == 1:
-            await channel.send(emoji)
+        try:
+            line = random.choice(list(SHITTALK_LINES.keys()))
+            emoji = SHITTALK_LINES[line]
+            await channel.send(line)
+            # 1/2 tỉ lệ gửi thêm emoji
+            if random.randint(1, 2) == 1:
+                await channel.send(emoji)
+        except discord.HTTPException as e:
+            print(f"⚠️ Failed to send shittalk: {e}")
+        except Exception as e:
+            print(f"❌ Unexpected error in _send_shittalk: {e}")
 
     async def on_message(self, message: discord.Message):
-        # Bỏ qua tin nhắn của chính bot
-        if message.author == self.user:
-            return
+        try:
+            # Bỏ qua tin nhắn của chính bot
+            if message.author == self.user:
+                return
 
-        # Bỏ qua nếu user nằm trong danh sách excluded
-        if message.author.id in self._excluded_users:
-            return
+            # Bỏ qua nếu user nằm trong danh sách excluded
+            if message.author.id in self._excluded_users:
+                return
 
-        # Bỏ qua nếu channel không nằm trong danh sách allowed
-        if message.channel.id not in self._allowed_channels:
-            return
+            # Bỏ qua nếu channel không nằm trong danh sách allowed
+            if message.channel.id not in self._allowed_channels:
+                return
 
-        # Sau 97 lần fail, chắc chắn thành công
-        if self._fail_count >= 97:
-            await self._send_shittalk(message.channel)
-            self._chat_chance = random.randint(20, 200)
-            self._fail_count = 0
-        # Thử xác suất hiện tại (1 / self._chat_chance)
-        elif random.randint(1, self._chat_chance) == 1:
-            await self._send_shittalk(message.channel)
-            # Rerandom tỉ lệ
-            self._chat_chance = random.randint(20, 200)
-            self._fail_count = 0
-        else:
-            self._fail_count += 1
+            # Sau 97 lần fail, chắc chắn thành công
+            if self._fail_count >= 97:
+                await self._send_shittalk(message.channel)
+                self._chat_chance = random.randint(20, 200)
+                self._fail_count = 0
+            # Thử xác suất hiện tại (1 / self._chat_chance)
+            elif random.randint(1, self._chat_chance) == 1:
+                await self._send_shittalk(message.channel)
+                # Rerandom tỉ lệ
+                self._chat_chance = random.randint(20, 200)
+                self._fail_count = 0
+            else:
+                self._fail_count += 1
 
-        await self.process_commands(message)
+            await self.process_commands(message)
+        except Exception as e:
+            print(f"❌ Error in on_message: {e}")
+            traceback.print_exc()
 
 
 # ── Slash commands ─────────────────────────────────────────────────────
@@ -212,7 +233,7 @@ async def _claim_owner(interaction: discord.Interaction):
     description="Exclude hoặc include user (chỉ owner mới được gọi).",
 )
 @app_commands.describe(user="User ID cần exclude/include")
-async def _exclude_user(interaction: discord.Interaction, user: int):
+async def _exclude_user(interaction: discord.Interaction, user: discord.User):
     bot: ShittalkBot = interaction.client
     # Kiểm tra nếu chỉ owner mới được gọi
     if bot._owner_id is not None and interaction.user.id != bot._owner_id:
@@ -221,17 +242,17 @@ async def _exclude_user(interaction: discord.Interaction, user: int):
         )
         return
     
-    if user in bot._excluded_users:
+    if user.id in bot._excluded_users:
         # Toggle: nếu đã exclude thì bỏ exclude
-        bot._excluded_users.discard(user)
+        bot._excluded_users.discard(user.id)
         await interaction.response.send_message(
-            f"✅ <@{user}> đã được bỏ khỏi danh sách loại trừ. Bot sẽ tính tin nhắn của họ.",
+            f"✅ <@{user.id}> đã được bỏ khỏi danh sách loại trừ. Bot sẽ tính tin nhắn của họ.",
             ephemeral=True,
         )
     else:
-        bot._excluded_users.add(user)
+        bot._excluded_users.add(user.id)
         await interaction.response.send_message(
-            f"✅ <@{user}> đã được thêm vào danh sách loại trừ. Bot sẽ bỏ qua tin nhắn của họ.",
+            f"✅ <@{user.id}> đã được thêm vào danh sách loại trừ. Bot sẽ bỏ qua tin nhắn của họ.",
             ephemeral=True,
         )
 
