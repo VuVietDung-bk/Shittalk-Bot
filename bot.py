@@ -29,7 +29,18 @@ SHITTALK_LINES = {
     "Hắn sẽ gây ra những hậu quả \"kinh khủng\" cho cả bạn và lũ thây ma!": "<:fire_speaking:1477284820844544122>",
     "tao del chua may ra": "<:hlgotnonetosay:1402967694470418594>",
     "co cut": "<:gotnonetocook:1409548321395183678>",
-    "toi di roi mn len pho lang thay cho toi nhe\nco gang thay doi discord LKT\nde LKT khong con tinh trang nhu bay h nua": "<:arisu_cry:1332925707742875690>",
+    "toi di roi mn len pho lang thay cho toi nhe, co gang thay doi discord LKT, de LKT khong con tinh trang nhu bay h nua": "<:arisu_cry:1332925707742875690>",
+    "co ai binh thuong de biet viec bi chui thi co la joke no cung ko hai k": "<:arisu_cry:1332925707742875690>",
+    "IQ k thap den muc k nhan ra no dang nch voi ai": "<:hlgotnonetosay:1402967694470418594>",
+    "noi thu a dang de ton trong di a": "<:hlgotnonetosay:1402967694470418594>",
+    "e ko xem nguoi chet la nguoi song dau a": "<:hlgotnonetosay:1402967694470418594>",
+    "donate cho t 200k di dang doi": "😝",
+    "chac chi la con gio": "<:hlgotnonetosay:1402967694470418594>",
+    "đừng làm t ngứa mắt nữa": "<:akiehahahahahahahahhhahahahahaha:1487298163999117342>",
+    "câm": "<:akiehahahahahahahahhhahahahahaha:1487298163999117342>",
+    "dám làm ko dám nhận nhưng khác vs t ở chỗ shion đổ cho ng khác": "<:akiehahahahahahahahhhahahahahaha:1487298163999117342>",
+    "Luck does not exist. Things happen according to The Lord Jesus's plan and doesn't happen based on chances.": "<:fire_speaking:1477284820844544122>",
+    "choi td di e": "<:hlgotnonetosay:1402967694470418594>",
 }
 
 class ShittalkBot(commands.Bot):
