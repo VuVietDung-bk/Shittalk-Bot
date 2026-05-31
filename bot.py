@@ -17,7 +17,7 @@ SHITTALK_LINES = {
     "stfu nigg-": "<:fire_speaking:1477284820844544122>",
     "ngam mom vao, thang hai nua mua": "<:gotnonetocook:1409548321395183678>",
     "Nguyen Ha Dong lam duoc thi toi cung lam duoc": "<:hlgotnonetosay:1402967694470418594>",
-    "can nha o pho co Ha Noi": "<:hlgotnonetosay:1402967694470418594>",
+    "t co can nha o pho co Ha Noi, con m co gi": "<:hlgotnonetosay:1402967694470418594>",
     "hoi AI di em": "<:hlgotnonetosay:1402967694470418594>",
     "bt sao ragebait toi manh k vi toi toan noi thang tim den ng khac ra": "<:hlgotnonetosay:1402967694470418594>",
     "co dien ton trong 💔": "<:hlgotnonetosay:1402967694470418594>",
@@ -75,6 +75,12 @@ SHITTALK_LINES = {
     "ho ko biet toi co thien phu cap 3 e si": "<:hlgotnonetosay:1402967694470418594>",
     "yo i ragebaited too hard": "💀",
     "tao biet moi thu ve may": "<:hlgotnonetosay:1402967694470418594>",
+    "Con người chỉ là công cụ": "<:fire_speaking:1477284820844544122>",
+    "u stupid nigg-": "<:fire_speaking:1477284820844544122>",
+    "Cuộc sống dạy tôi rằng đừng bao giờ đánh giá người khác quá sớm… trừ khi đó là mẹ bạn": "<:imlangnaocobe:1374729572737880156>",
+    "Bản năng vô cực giúp Goku né đòn, còn trải nghiệm giúp con người né lòng người": "<:khongphaisigmathinin:1320391737260245083>",
+    "kat an cut": "<:hlgotnonetosay:1402967694470418594>",
+    "me a bn can the a": "<:hlgotnonetosay:1402967694470418594>"
 }
 
 class ShittalkBot(commands.Bot):
