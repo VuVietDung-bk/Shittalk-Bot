@@ -80,7 +80,8 @@ SHITTALK_LINES = {
     "Cuộc sống dạy tôi rằng đừng bao giờ đánh giá người khác quá sớm… trừ khi đó là mẹ bạn": "<:imlangnaocobe:1374729572737880156>",
     "Bản năng vô cực giúp Goku né đòn, còn trải nghiệm giúp con người né lòng người": "<:khongphaisigmathinin:1320391737260245083>",
     "kat an cut": "<:hlgotnonetosay:1402967694470418594>",
-    "me a bn can the a": "<:hlgotnonetosay:1402967694470418594>"
+    "me a bn can the a": "<:hlgotnonetosay:1402967694470418594>",
+    "Alo anh chị ơi, em có chuyện này hay lắm nè. Anh chị có muốn nghe về bộ yuri mới không ạ? Có hai chị em sinh đôi yêu nhau, rất cảm động, có cảnh trong nhà tắm...": "❤️‍🩹",
 }
 
 class ShittalkBot(commands.Bot):
